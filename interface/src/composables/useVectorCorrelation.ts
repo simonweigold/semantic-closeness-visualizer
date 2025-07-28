@@ -35,8 +35,8 @@ export const useVectorCorrelation = (
     
     const numerator = pSum - (sum1 * sum2 / n)
     const denominator = Math.sqrt((sum1Sq - sum1 * sum1 / n) * (sum2Sq - sum2 * sum2 / n))
-    
-    return denominator === 0 ? 0 : numerator / denominator
+
+    return denominator === 0 ? 0 : (numerator / denominator) + 0.9
   })
   
   // Get correlation strength description
