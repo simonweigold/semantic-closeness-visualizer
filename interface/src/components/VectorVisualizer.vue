@@ -4,7 +4,7 @@
       <div class="visualizer-content">
         <!-- Header section -->
         <div class="header-section px-6 py-3">
-          <h3 class="text-[var(--color-white)] text-lg font-[var(--font-display)]">semantic_closeness</h3>
+          <h3 class="text-[var(--color-text)] text-lg font-[var(--font-display)]">semantic_closeness</h3>
         </div>
         
         <!-- Main visualization area -->
@@ -65,11 +65,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { computed } from 'vue'
+import { useTextToVector, type TextInputData } from '../composables/useTextToVector'
 
 // Props interface for future extensibility
 interface Props {
-  data?: Array<{ id: string; value: string }>
+  data?: TextInputData[]
   title?: string
 }
 
@@ -79,44 +80,25 @@ const props = withDefaults(defineProps<Props>(), {
   title: 'Vector Visualization'
 })
 
-// Create reactive matrices for both inputs
-const matrix1 = ref<number[][]>([])
-const matrix2 = ref<number[][]>([])
+// Use the text-to-vector composable
+const {
+  getVector,
+  hasVector,
+  getVectorIds
+} = useTextToVector(computed(() => props.data))
 
 // Computed properties to check if inputs exist
-const hasInput1 = computed(() => {
-  return props.data.some(item => item.id === 'input1' && item.value.trim() !== '')
-})
+const hasInput1 = computed(() => hasVector('input1'))
+const hasInput2 = computed(() => hasVector('input2'))
 
-const hasInput2 = computed(() => {
-  return props.data.some(item => item.id === 'input2' && item.value.trim() !== '')
-})
+// Get matrices for both inputs
+const matrix1 = computed(() => getVector('input1'))
+const matrix2 = computed(() => getVector('input2'))
 
 // Function to get input text by ID
 const getInputText = (inputId: string): string => {
   const input = props.data.find(item => item.id === inputId)
   return input ? input.value : ''
-}
-
-// Generate vector matrix based on text input
-const generateVectorFromText = (text: string): number[][] => {
-  const newMatrix: number[][] = []
-  
-  // Use text as seed for consistent random generation
-  const seed = text.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
-  
-  for (let row = 0; row < 8; row++) {
-    const currentRow: number[] = []
-    for (let col = 0; col < 32; col++) {
-      // Generate pseudo-random numbers based on text seed, row, and column
-      const pseudoRandom = Math.sin(seed + row * 32 + col) * 10000
-      const value = Math.floor((pseudoRandom - Math.floor(pseudoRandom)) * 201) - 100
-      currentRow.push(value)
-    }
-    newMatrix.push(currentRow)
-  }
-  
-  return newMatrix
 }
 
 // Function to get cell color based on value
@@ -135,25 +117,6 @@ const getCellColor = (value: number): string => {
     return 'rgba(168, 168, 168, 0.3)' // Using light-grey color
   }
 }
-
-// Watch for changes in input data and regenerate matrices
-watch(() => props.data, (newData) => {
-  // Update matrix1 if input1 exists
-  const input1 = newData.find(item => item.id === 'input1')
-  if (input1 && input1.value.trim() !== '') {
-    matrix1.value = generateVectorFromText(input1.value)
-  } else {
-    matrix1.value = []
-  }
-  
-  // Update matrix2 if input2 exists
-  const input2 = newData.find(item => item.id === 'input2')
-  if (input2 && input2.value.trim() !== '') {
-    matrix2.value = generateVectorFromText(input2.value)
-  } else {
-    matrix2.value = []
-  }
-}, { immediate: true, deep: true })
 </script>
 
 <style scoped>
