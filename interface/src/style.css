@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 :root {
-  --font-display: 'Inter', sans-serif;
+  --font-display: 'Tomorrow', sans-serif;
 
   --color-background: #DDD6C5;
   --color-text: #222222;
