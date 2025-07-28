@@ -1,12 +1,6 @@
 <template>
   <div class="max-w-4xl mx-auto p-8 font-[var(--font-display)] text-[var(--color-text)]">
-    <header class="text-center mb-12">
-      <!-- Make h1 have the accent1 color -->
-      <h1 class="mb-2 text-4xl md:text-5xl">Semantic Closeness Visualizer</h1>
-      <p class="text-lg md:text-xl m-0">Analyze and visualize the semantic relationships in your text</p>
-    </header>
-
-    <main class="flex flex-col gap-8">
+    <main class="flex flex-col">
       <section class="input-section-wrapper">
         <TextInput
           v-model="textInputs.input1"
@@ -30,6 +24,14 @@
         />
       </section>
 
+      <!-- Vector Visualizer Component -->
+      <section class="vector-visualizer-section">
+        <VectorVisualizer 
+          :data="activeInputs"
+          title="Semantic Closeness Visualization"
+        />
+      </section>
+
       <!-- Display the data for demonstration -->
       <section v-if="activeInputs.length > 0" class="bg-[var(--color-white)] border border-[var(--color-light-grey)] rounded-lg p-6 shadow-md">
         <h2 class="text-[var(--color-text)] mb-4 pb-2 border-b-2 border-[var(--color-light-grey)] text-2xl font-[var(--font-display)]">Current Data Structure</h2>
@@ -47,6 +49,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import TextInput from '../components/TextInput.vue'
+import VectorVisualizer from '../components/VectorVisualizer.vue'
 
 // Define the structure of our text inputs with TypeScript
 interface TextInputData {
