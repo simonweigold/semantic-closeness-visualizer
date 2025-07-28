@@ -10,54 +10,100 @@
         <!-- Main visualization area -->
         <div class="visualization-area p-6">
           <div class="w-full h-full overflow-auto">
-            <div class="vectors-container">
-              <!-- First Vector (triggered by input1) -->
-              <div v-if="hasInput1" class="vector-section">
-                <h4 class="vector-title text-[var(--color-text)] font-[var(--font-display)] mb-2">
-                  Vector 1: "{{ getInputText('input1') }}"
-                </h4>
-                <div class="matrix-container">
-                  <div 
-                    v-for="(row, rowIndex) in matrix1" 
-                    :key="`matrix1-${rowIndex}`" 
-                    class="matrix-row"
-                  >
-                    <div 
-                      v-for="(value, colIndex) in row" 
-                      :key="`matrix1-${rowIndex}-${colIndex}`"
-                      class="matrix-cell"
-                      :title="`Value: ${value}, Rotation: ${getRotationDegrees(value)}°`"
-                    >
+            <div class="main-content-grid">
+              <!-- First Column: Input texts and correlation -->
+              <div class="input-column">
+                <div class="input-texts-section">
+                  <div v-if="hasInput1" class="input-text-item">
+                    <h4 class="input-label text-[var(--color-text)] font-[var(--font-display)]">
+                      Input 1:
+                    </h4>
+                    <div class="input-text-display accent1-border">
+                      "{{ getInputText('input1') }}"
+                    </div>
+                  </div>
+                  
+                  <div v-if="hasInput2" class="input-text-item">
+                    <h4 class="input-label text-[var(--color-text)] font-[var(--font-display)]">
+                      Input 2:
+                    </h4>
+                    <div class="input-text-display accent2-border">
+                      "{{ getInputText('input2') }}"
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Correlation Section -->
+                <div v-if="hasInput1 && hasInput2" class="correlation-section">
+                  <h4 class="correlation-label text-[var(--color-text)] font-[var(--font-display)]">
+                    Correlation
+                  </h4>
+                  <div class="correlation-display">
+                    <div class="correlation-value">
+                      {{ calculateCorrelation.toFixed(3) }}
+                    </div>
+                    <div class="correlation-bar">
                       <div 
-                        class="vector-line accent1-line"
-                        :style="{ transform: `rotate(${getRotationDegrees(value)}deg)` }"
+                        class="correlation-fill"
+                        :style="{ width: `${Math.abs(calculateCorrelation) * 100}%` }"
                       ></div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <!-- Second Vector (triggered by input2) -->
-              <div v-if="hasInput2" class="vector-section">
-                <h4 class="vector-title text-[var(--color-text)] font-[var(--font-display)] mb-2">
-                  Vector 2: "{{ getInputText('input2') }}"
-                </h4>
-                <div class="matrix-container">
-                  <div 
-                    v-for="(row, rowIndex) in matrix2" 
-                    :key="`matrix2-${rowIndex}`" 
-                    class="matrix-row"
-                  >
-                    <div 
-                      v-for="(value, colIndex) in row" 
-                      :key="`matrix2-${rowIndex}-${colIndex}`"
-                      class="matrix-cell"
-                      :title="`Value: ${value}, Rotation: ${getRotationDegrees(value)}°`"
-                    >
+              
+              <!-- Second Column: Vector visualizations -->
+              <div class="visualization-column">
+                <div class="vectors-container">
+                  <!-- First Vector (triggered by input1) -->
+                  <div v-if="hasInput1" class="vector-section">
+                    <h4 class="vector-title text-[var(--color-text)] font-[var(--font-display)]">
+                      Vector 1
+                    </h4>
+                    <div class="matrix-container">
                       <div 
-                        class="vector-line accent2-line"
-                        :style="{ transform: `rotate(${getRotationDegrees(value)}deg)` }"
-                      ></div>
+                        v-for="(row, rowIndex) in matrix1" 
+                        :key="`matrix1-${rowIndex}`" 
+                        class="matrix-row"
+                      >
+                        <div 
+                          v-for="(value, colIndex) in row" 
+                          :key="`matrix1-${rowIndex}-${colIndex}`"
+                          class="matrix-cell"
+                          :title="`Value: ${value}, Rotation: ${getRotationDegrees(value)}°`"
+                        >
+                          <div 
+                            class="vector-line accent1-line"
+                            :style="{ transform: `rotate(${getRotationDegrees(value)}deg)` }"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Second Vector (triggered by input2) -->
+                  <div v-if="hasInput2" class="vector-section">
+                    <h4 class="vector-title text-[var(--color-text)] font-[var(--font-display)]">
+                      Vector 2
+                    </h4>
+                    <div class="matrix-container">
+                      <div 
+                        v-for="(row, rowIndex) in matrix2" 
+                        :key="`matrix2-${rowIndex}`" 
+                        class="matrix-row"
+                      >
+                        <div 
+                          v-for="(value, colIndex) in row" 
+                          :key="`matrix2-${rowIndex}-${colIndex}`"
+                          class="matrix-cell"
+                          :title="`Value: ${value}, Rotation: ${getRotationDegrees(value)}°`"
+                        >
+                          <div 
+                            class="vector-line accent2-line"
+                            :style="{ transform: `rotate(${getRotationDegrees(value)}deg)` }"
+                          ></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -73,6 +119,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useTextToVector, type TextInputData } from '../composables/useTextToVector'
+import { useVectorCorrelation } from '../composables/useVectorCorrelation'
 
 // Props interface for future extensibility
 interface Props {
@@ -101,27 +148,16 @@ const hasInput2 = computed(() => hasVector('input2'))
 const matrix1 = computed(() => getVector('input1'))
 const matrix2 = computed(() => getVector('input2'))
 
+// Use the vector correlation composable
+const {
+  calculateCorrelation,
+  correlationResult
+} = useVectorCorrelation(matrix1, matrix2)
+
 // Function to get input text by ID
 const getInputText = (inputId: string): string => {
   const input = props.data.find(item => item.id === inputId)
   return input ? input.value : ''
-}
-
-// Function to get cell color based on value
-const getCellColor = (value: number): string => {
-  // Normalize value to 0-1 range for color calculation
-  const normalized = (value + 100) / 200 // -100 to 100 becomes 0 to 1
-  
-  if (value > 0) {
-    // Positive values: shades of blue
-    return `rgba(72, 123, 157, ${0.2 + normalized * 0.6})` // Using accent2 color
-  } else if (value < 0) {
-    // Negative values: shades of red
-    return `rgba(230, 57, 70, ${0.2 + (1 - normalized) * 0.6})` // Using accent3 color
-  } else {
-    // Zero: neutral color
-    return 'rgba(168, 168, 168, 0.3)' // Using light-grey color
-  }
 }
 
 // Function to get rotation degrees based on value
@@ -178,20 +214,121 @@ const getRotationDegrees = (value: number): number => {
   height: 100%;
 }
 
+.main-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  height: 100%;
+}
+
+.input-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
+
+.visualization-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-texts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-text-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.input-text-display {
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.5);
+  border-left: 4px solid;
+  font-size: 13px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.accent1-border {
+  border-left-color: var(--color-accent1);
+}
+
+.accent2-border {
+  border-left-color: var(--color-accent2);
+}
+
+.correlation-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  border: 2px solid var(--color-accent3);
+}
+
+.correlation-label {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-accent3);
+}
+
+.correlation-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.correlation-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-accent3);
+  text-align: center;
+}
+
+.correlation-bar {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.correlation-fill {
+  height: 100%;
+  background: var(--color-accent3);
+  transition: width 0.3s ease;
+}
+
 .vector-section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .vector-title {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
-  max-width: 600px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin: 0;
 }
 
 .placeholder-section {
@@ -246,7 +383,28 @@ const getRotationDegrees = (value: number): number => {
 
 @media (max-width: 768px) {
   .vector-visualizer {
-    height: 250px; /* Smaller height on mobile */
+    height: 300px; /* Taller height for mobile to accommodate stacked layout */
+  }
+  
+  .main-content-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .input-column {
+    padding: 0.75rem;
+  }
+  
+  .input-label, .vector-title {
+    font-size: 12px;
+  }
+  
+  .correlation-label {
+    font-size: 14px;
+  }
+  
+  .correlation-value {
+    font-size: 20px;
   }
   
   .header-section {
@@ -265,7 +423,33 @@ const getRotationDegrees = (value: number): number => {
 
 @media (max-width: 480px) {
   .vector-visualizer {
-    height: 200px; /* Even smaller on very small screens */
+    height: 350px; /* Even taller on very small screens for better content fit */
+  }
+  
+  .input-texts-section {
+    gap: 0.75rem;
+  }
+  
+  .input-text-display {
+    padding: 0.5rem;
+    font-size: 12px;
+    max-height: 80px;
+  }
+  
+  .correlation-section {
+    padding: 0.75rem;
+  }
+  
+  .input-label, .vector-title {
+    font-size: 11px;
+  }
+  
+  .correlation-label {
+    font-size: 13px;
+  }
+  
+  .correlation-value {
+    font-size: 18px;
   }
   
   .visualization-area {
