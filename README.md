@@ -1,7 +1,36 @@
 # Semantic Closeness Visualizer
 
-The Semantic Closeness Visualizer (SCV) is a tool which lets the user input two strings of text with a maximum length of 150 characters. The SCV vectorizes these two strings of text and reduces the vectors to a dimensionality of two. The final grid is a 2d matrix of 16 by 64.
+⚠️ **This tool is still under development**
 
-The SCV projects this 16 by 64 grid in a rectangle which has a layout of 1400 x 350. Each number of the vector is mapped to a single specific field within this rectangle and displayed in yellow for the first text.
+A Vue.js web interface for visualizing semantic closeness between text inputs. Currently generates mock vector embeddings for demonstration purposes.
 
-The grid also includes a QR code as well as a legend for which text is portrayed by which color.
+## What it does
+
+- Takes two text inputs (up to 150 characters each)
+- Generates deterministic pseudo-random 8×32 vectors from the text
+- Visualizes the vectors as colored grids
+- Calculates and displays correlation between vectors
+- Shows a QR code linking to the project repository
+
+## Current State
+
+The interface is functional but uses **mock vector generation** based on character codes rather than actual semantic embeddings. A proper backend with real text vectorization (using models like BERT, Sentence Transformers, etc.) is planned but not yet implemented.
+
+## Tech Stack
+
+- Vue 3 with TypeScript
+- Vite build system
+- Tailwind CSS
+- Responsive design
+
+## Development
+
+```sh
+npm run dev
+```
+
+## Future Plans
+
+- Connect to a backend API for real semantic embeddings
+- Add support for various embedding models
+- Implement proper similarity metrics beyond correlation

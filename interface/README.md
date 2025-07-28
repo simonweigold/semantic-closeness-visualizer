@@ -1,33 +1,36 @@
-# interface
+# Semantic Closeness Visualizer - Interface
 
-This template should help get you started developing with Vue 3 in Vite.
+⚠️ **This tool is still under development**
 
-## Recommended IDE Setup
+A Vue.js web interface for visualizing semantic closeness between text inputs. Currently generates mock vector embeddings for demonstration purposes.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## What it does
 
-## Type Support for `.vue` Imports in TS
+- Takes two text inputs (up to 150 characters each)
+- Generates deterministic pseudo-random 8×32 vectors from the text
+- Visualizes the vectors as colored grids
+- Calculates and displays correlation between vectors
+- Shows a QR code linking to the project repository
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Current State
 
-## Customize configuration
+The interface is functional but uses **mock vector generation** based on character codes rather than actual semantic embeddings. A proper backend with real text vectorization (using models like BERT, Sentence Transformers, etc.) is planned but not yet implemented.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Tech Stack
 
-## Project Setup
+- Vue 3 with TypeScript
+- Vite build system
+- Tailwind CSS
+- Responsive design
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
+## Development
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Future Plans
 
-```sh
-npm run build
-```
+- Connect to a backend API for real semantic embeddings
+- Add support for various embedding models
+- Implement proper similarity metrics beyond correlation

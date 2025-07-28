@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center w-full px-0">
-    <div class="w-full max-w-[auto] bg-[var(--color-background)] mt-5 border border-[var(--color-light-grey)]">
+  <div class="flex justify-center w-full px-0 mt-25">
+    <div class="w-full max-w-[auto] bg-[var(--color-background)] mt-5">
       <div class="flex flex-col h-[auto]">
         <!-- Main visualization area -->
         <div class="flex-1 p-4 min-h-0">
