@@ -16,14 +16,14 @@
                 <div class="input-texts-section">
                   <div v-if="hasInput1" class="input-text-item">
                     <div class="legend-line accent1-line"></div>
-                    <h4 class="input-label text-[var(--color-text)] font-[var(--font-display)]">
+                    <h4 class="input-label text-[var(--color-text)] text-sm font-[var(--font-display)]">
                       input_1: "{{ getInputText('input1') }}"
                     </h4>
                   </div>
                   
                   <div v-if="hasInput2" class="input-text-item">
                     <div class="legend-line accent2-line"></div>
-                    <h4 class="input-label text-[var(--color-text)] font-[var(--font-display)]">
+                    <h4 class="input-label text-[var(--color-text)] text-sm font-[var(--font-display)]">
                       input_2: "{{ getInputText('input2') }}"
                     </h4>
                   </div>
@@ -31,11 +31,11 @@
                 
                 <!-- Correlation Section -->
                 <div v-if="hasInput1 && hasInput2" class="correlation-section">
-                  <h4 class="correlation-label text-[var(--color-text)] font-[var(--font-display)]">
+                  <h4 class="correlation-label text-[var(--color-text)] text-sm font-[var(--font-display)]">
                     Correlation
                   </h4>
                   <div class="correlation-display">
-                    <div class="correlation-value">
+                    <div class="correlation-value text-sm">
                       {{ calculateCorrelation.toFixed(3) }}
                     </div>
                     <div class="correlation-bar">
