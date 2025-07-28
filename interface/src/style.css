@@ -3,7 +3,8 @@
 :root {
   --font-display: 'Tomorrow', sans-serif;
 
-  --color-background: #DDD6C5;
+  /*--color-background: #DDD6C5;*/
+  --color-background: #EAEAEA;
   --color-text: #222222;
   --color-accent1: #F1FA8C;
   --color-accent2: #457B9D;
