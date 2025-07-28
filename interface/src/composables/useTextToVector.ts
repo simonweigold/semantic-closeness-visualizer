@@ -21,7 +21,7 @@ const DEFAULT_CONFIG: VectorConfig = {
   rows: 8,
   cols: 32,
   valueRange: {
-    min: -100,
+    min: 0,
     max: 100
   }
 }

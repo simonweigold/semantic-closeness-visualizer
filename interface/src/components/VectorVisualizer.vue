@@ -26,9 +26,12 @@
                       v-for="(value, colIndex) in row" 
                       :key="`matrix1-${rowIndex}-${colIndex}`"
                       class="matrix-cell"
-                      :style="{ backgroundColor: getCellColor(value) }"
+                      :title="`Value: ${value}, Rotation: ${getRotationDegrees(value)}°`"
                     >
-                      {{ value }}
+                      <div 
+                        class="vector-line accent1-line"
+                        :style="{ transform: `rotate(${getRotationDegrees(value)}deg)` }"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -49,9 +52,12 @@
                       v-for="(value, colIndex) in row" 
                       :key="`matrix2-${rowIndex}-${colIndex}`"
                       class="matrix-cell"
-                      :style="{ backgroundColor: getCellColor(value) }"
+                      :title="`Value: ${value}, Rotation: ${getRotationDegrees(value)}°`"
                     >
-                      {{ value }}
+                      <div 
+                        class="vector-line accent2-line"
+                        :style="{ transform: `rotate(${getRotationDegrees(value)}deg)` }"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -116,6 +122,12 @@ const getCellColor = (value: number): string => {
     // Zero: neutral color
     return 'rgba(168, 168, 168, 0.3)' // Using light-grey color
   }
+}
+
+// Function to get rotation degrees based on value
+const getRotationDegrees = (value: number): number => {
+  // Map 0-100 to 0-360 degrees
+  return (value / 100) * 360
 }
 </script>
 
@@ -259,5 +271,25 @@ const getCellColor = (value: number): string => {
   .visualization-area {
     padding: 0.75rem;
   }
+}
+
+/* Vector line styles */
+.vector-line {
+  width: 10px;
+  height: 2px;
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.accent1-line {
+  background-color: var(--color-accent1);
+}
+
+.accent2-line {
+  background-color: var(--color-accent2);
+}
+
+.accent3-line {
+  background-color: var(--color-accent3);
 }
 </style>
