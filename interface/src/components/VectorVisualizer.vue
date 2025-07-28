@@ -5,7 +5,7 @@
         <!-- Main visualization area -->
         <div class="flex-1 p-4 min-h-0">
           <div class="w-full h-full overflow-auto">
-            <div class="grid grid-cols-[auto_1fr] gap-0 h-full max-md:grid-cols-1 max-md:gap-4">
+            <div class="grid grid-cols-[auto_1fr_auto] gap-4 h-full max-md:grid-cols-1 max-md:gap-4">
               <!-- First Column: Input texts and correlation -->
               <div class="flex flex-col gap-6 p-4 max-md:p-3">
                 <div class="flex flex-col gap-4 max-sm:gap-3">
@@ -73,6 +73,27 @@
                   </div>
                 </div>
               </div>
+              
+              <!-- Third Column: PNG Display -->
+              <div class="flex flex-col items-center justify-start p-4 max-md:p-3">
+                <div class="flex flex-col items-center gap-2">
+                  <div class="w-32 h-32 bg-white border border-[var(--color-light-grey)] rounded flex items-center justify-center">
+                    <img 
+                      :src="props.pngImageUrl" 
+                      alt="QR Code"
+                      class="max-w-full max-h-full object-contain"
+                      @error="onImageError"
+                      v-if="props.pngImageUrl"
+                    />
+                    <div 
+                      v-else 
+                      class="text-[var(--color-text)] text-xs text-center opacity-50"
+                    >
+                      No image available
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -90,12 +111,14 @@ import { useVectorCorrelation } from '../composables/useVectorCorrelation'
 interface Props {
   data?: TextInputData[]
   title?: string
+  pngImageUrl?: string
 }
 
 // Define props with defaults
 const props = withDefaults(defineProps<Props>(), {
   data: () => [],
-  title: 'Vector Visualization'
+  title: 'Vector Visualization',
+  pngImageUrl: ''
 })
 
 // Use the text-to-vector composable
@@ -129,6 +152,11 @@ const getInputText = (inputId: string): string => {
 const getRotationDegrees = (value: number): number => {
   // Map 0-100 to 0-360 degrees
   return (value / 100) * 360
+}
+
+// Function to handle image loading errors
+const onImageError = (event: Event) => {
+  console.warn('Failed to load PNG image:', props.pngImageUrl)
 }
 </script>
 

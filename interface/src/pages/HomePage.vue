@@ -29,6 +29,7 @@
         <VectorVisualizer 
           :data="activeInputs"
           title="Semantic Closeness Visualization"
+          png-image-url="/github_qr_link.png"
         />
       </section>
     </main>
