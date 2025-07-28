@@ -5,7 +5,7 @@
         <!-- Main visualization area -->
         <div class="flex-1 p-4 min-h-0">
           <div class="w-full h-full overflow-auto">
-            <div class="grid grid-cols-[auto_1fr_auto] gap-4 h-full max-md:grid-cols-1 max-md:gap-4">
+            <div class="grid grid-cols-[auto_1fr_auto] gap-4 h-full max-md:grid-cols-1 max-md:gap-4 items-start">
               <!-- First Column: Input texts and correlation -->
               <div class="flex flex-col gap-6 p-4 max-md:p-3">
                 <div class="flex flex-col gap-4 max-sm:gap-3">
@@ -39,10 +39,10 @@
               </div>
               
               <!-- Second Column: Vector visualizations -->
-              <div class="flex flex-col">
+              <div class="flex flex-col justify-start">
                 <div class="flex flex-col h-full">
                   <!-- Stacked Vector Visualization -->
-                  <div v-if="hasInput1 || hasInput2" class="flex flex-col items-center">
+                  <div v-if="hasInput1 || hasInput2" class="flex flex-col items-center pt-4">
                     <div class="flex flex-col gap-px">
                       <div 
                         v-for="(row, rowIndex) in matrix1" 
