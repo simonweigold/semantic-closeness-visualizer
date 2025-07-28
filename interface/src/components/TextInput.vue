@@ -22,11 +22,6 @@
         clear
       </button>
     </div>
-    <!--
-    <p v-if="localValue && showPreview" class="bg-accent1/20 px-3 py-3 rounded border-l-4 border-accent1 m-0 text-text">
-      You typed: <strong class="font-bold">{{ localValue }}</strong>
-    </p>
-    -->
   </div>
 </template>
 
