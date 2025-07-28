@@ -31,17 +31,6 @@
           title="Semantic Closeness Visualization"
         />
       </section>
-
-      <!-- Display the data for demonstration -->
-      <section v-if="activeInputs.length > 0" class="bg-[var(--color-white)] border border-[var(--color-light-grey)] rounded-lg p-6 shadow-md">
-        <h2 class="text-[var(--color-text)] mb-4 pb-2 border-b-2 border-[var(--color-light-grey)] text-2xl font-[var(--font-display)]">Current Data Structure</h2>
-        <div class="flex flex-col gap-2">
-          <p class="m-0 py-2 text-[var(--color-text)]">Total inputs with data: <strong>{{ activeInputs.length }}</strong></p>
-          <div v-for="input in activeInputs" :key="input.id" class="bg-[var(--color-accent1)]/20 p-3 rounded">
-            <strong>{{ input.id }}:</strong> "{{ input.value }}"
-          </div>
-        </div>
-      </section>
     </main>
   </div>
 </template>
