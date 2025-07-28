@@ -2,10 +2,10 @@
   <div class="vector-visualizer-container">
     <div class="vector-visualizer bg-[var(--color-background)] mt-5 border border-[var(--color-light-grey)]">
       <div class="visualizer-content">
-        <!-- Header section -->
+        <!-- Header section
         <div class="header-section px-6 py-3">
           <h3 class="text-[var(--color-text)] text-lg font-[var(--font-display)]">semantic_closeness</h3>
-        </div>
+        </div>-->
         
         <!-- Main visualization area -->
         <div class="visualization-area p-6">
@@ -32,12 +32,9 @@
                 <!-- Correlation Section -->
                 <div v-if="hasInput1 && hasInput2" class="correlation-section">
                   <h4 class="correlation-label text-[var(--color-text)] text-sm font-[var(--font-display)]">
-                    Correlation
+                    correlation: {{ calculateCorrelation.toFixed(3) }}
                   </h4>
                   <div class="correlation-display">
-                    <div class="correlation-value text-sm">
-                      {{ calculateCorrelation.toFixed(3) }}
-                    </div>
                     <div class="correlation-bar">
                       <div 
                         class="correlation-fill"
@@ -436,7 +433,7 @@ const getRotationDegrees = (value: number): number => {
 }
 
 .accent1-line {
-  background-color: var(--color-accent1);
+  background-color: var(--color-text);
 }
 
 .accent2-line {
