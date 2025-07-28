@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto p-8 font-[var(--font-display)] text-[var(--color-text)]">
+  <div class="max-w-6xl mx-auto mt-8 p-8 font-[var(--font-display)] text-[var(--color-text)]">
     <main class="flex flex-col">
       <section class="input-section-wrapper">
         <TextInput

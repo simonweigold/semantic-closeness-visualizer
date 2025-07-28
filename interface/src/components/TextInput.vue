@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[var(--color-background)] border border-[var(--color-light-grey)] p-6 font-[var(--font-display)] text-[var(--color-text)]">
+  <div class="bg-[var(--color-background)] p-6 font-[var(--font-display)] text-[var(--color-text)]">
     <label for="text-input" class="block">{{ label }}</label>
     <div class="flex gap-2">
       <input

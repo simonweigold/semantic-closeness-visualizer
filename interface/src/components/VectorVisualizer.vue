@@ -5,9 +5,9 @@
         <!-- Main visualization area -->
         <div class="flex-1 p-4 min-h-0">
           <div class="w-full h-full overflow-auto">
-            <div class="grid grid-cols-2 gap-4 h-full max-md:grid-cols-1 max-md:gap-4">
+            <div class="grid grid-cols-[auto_1fr] gap-0 h-full max-md:grid-cols-1 max-md:gap-4">
               <!-- First Column: Input texts and correlation -->
-              <div class="w-[200px] flex flex-col gap-6 p-4 max-md:p-3">
+              <div class="flex flex-col gap-6 p-4 max-md:p-3">
                 <div class="flex flex-col gap-4 max-sm:gap-3">
                   <div v-if="hasInput1" class="grid grid-cols-[auto_1fr] items-center gap-2">
                     <div class="w-[14px] h-[2px] bg-[var(--color-text)]"></div>
